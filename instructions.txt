@@ -1,0 +1,5 @@
+test.py instructions
+
+1. Turn off domain firewall
+2. Turn off private firewall
+3. Turn off public firewall
