@@ -1,3 +1,8 @@
+# NSCOM02 - MC02
+# Members:
+# De Jesus, Andrei Zarmin D.
+# Sayat, John Christian N.
+
 from socket import *
 import os
 import sys
@@ -10,9 +15,8 @@ ICMP_ECHO_REQUEST = 8
 MAX_HOPS = 30
 TIMEOUT = 2.0
 TRIES = 2
-REQUEST_DELAY = 1.5  # Delay between geolocation requests
+REQUEST_DELAY = 1.5
 
-# Destination Unreachable error codes
 error_msg = {
     0: "Network Unreachable",
     1: "Host Unreachable",
@@ -38,7 +42,6 @@ def get_geoloc(ip_addr):
             org = data.get('org', 'Unknown')
             isp = data.get('isp', 'Unknown')
 
-            # Formatting the output
             location = []
             if city != 'Unknown' and city:
                 location.append(f"City: {city}")
@@ -119,8 +122,8 @@ def get_route(hostname):
                 t = time.time()
                 whatReady = select.select([mySocket], [], [], timeLeft)
 
-                if whatReady[0] == []: # Timeout
-                    if tries == TRIES - 1:  # Only print if last try failed
+                if whatReady[0] == []: 
+                    if tries == TRIES - 1:  
                         print(f"{ttl:<5} {'*':<50} {'Timeout':<10}")
                         hop_found = True
                     continue
@@ -145,14 +148,14 @@ def get_route(hostname):
                     geo_info = get_geoloc(addr[0])
                     print(geo_info)
                     hop_found = True
-                    return True  # Destination unreachable, stop traceroute
+                    return True  
                     
                 elif types == 0:
                     print(f"{ttl:<5} {addr[0] + ' (Echo Reply - Destination Reached)':<50} {rtt_ping:<10}")
                     geo_info = get_geoloc(addr[0])
                     print(geo_info)
                     hop_found = True
-                    return True  # Reached destination, stop traceroute
+                    return True  
                     
                 else:
                     print(f"{ttl:<5} {addr[0] + f' (Error: Type {types})':<50} {'N/A':<10}")
@@ -174,7 +177,7 @@ def get_route(hostname):
     return False 
 
 if __name__ == "__main__":
-    hostnames = ["google.com", "dlsu.instructure.com", "dlsu.edu.ph"]
+    hostnames = ["google.com", "dlsu.instructure.com", "dlsu.edu.ph", "my.dlsu.edu.ph"]
 
     for target in hostnames:
         try:
@@ -189,4 +192,9 @@ if __name__ == "__main__":
         print("\n" + "=" * 80 + "\n")
 
 
+
+# to-do
+# 1. Change to input after testing
+# 2. debug api part
+# 3. remove debug comments
 
